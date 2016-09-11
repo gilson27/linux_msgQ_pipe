@@ -9,6 +9,7 @@
 
 
 int main() {
+	int response;
 	/**
 		Memory allocation to msg Q ID struct and  message to be sent
 	*/
@@ -18,20 +19,28 @@ int main() {
 
 	messageBuf objMessageBuf;
 	objMessageBuf = nullMessageBuf;
+	objMessageBuf.mtype = TEST_MSG_TYPE;
+	strcpy(objMessageBuf.msg, TEST_MSG);
 
 	/**
 		Create message Queue
 	*/
-	createMsgQ(&objMessageQID);
+	response = createMsgQ(&objMessageQID);
+	if(response == FAILURE) {
+		goto shutdown;
+	}
 
 	/**
 		Send message
 	*/
-	sendMsg(&objMessageQID, &objMessageBuf);
+	response = sendMsg(&objMessageQID, &objMessageBuf);
+	if(response == FAILURE) {
+		goto shutdown;
+	}
 	return 0;
 shutdown:
 	return -1;
-} 
+}
 
 
 /**
@@ -41,7 +50,11 @@ shutdown:
 int createMsgQ(messageQID *objMessageQID) {
 	int response;
 
-	response = msgget((key_t)TEST_MSG_KEY);
+	objMessageQID->msgID = msgget((key_t)TEST_MSG_KEY, IPC_CREAT | 0666);
+	if(response == FAILURE) {
+		perror("Failed to create message Queue");
+		return FAILURE;
+	}
 	
 	return SUCCESS;
 }
@@ -50,5 +63,15 @@ int createMsgQ(messageQID *objMessageQID) {
 /**
 	Function to send message over the message Queue
 */
+int sendMsg(messageQID *objMessageQID, messageBuf *objMessageBuf) {
+	int response;
 
+	response = msgsnd(objMessageQID->msgID, objMessageBuf, sizeof(objMessageBuf->msg), IPC_NOWAIT);
+	if(response == FAILURE) {
+		perror("Failed to send message");
+		return FAILURE;
+	}
+	
+	return SUCCESS;
+}
 

@@ -9,7 +9,7 @@
 #include <string.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
-#include <sys/errno.h>
+#include <errno.h>
 #include <sys/types.h>
 
 /**
@@ -17,8 +17,9 @@
 */
 
 #define TEST_MSG_KEY 9
-#define TEST_MSG_TYPE 9999
+#define TEST_MSG_TYPE 9999L
 #define MSG_SIZE 256
+#define TEST_MSG "It works"
 
 #define SUCCESS 0
 #define FAILURE -1
@@ -40,8 +41,8 @@ typedef struct MessageBuf {
 	Function Declarations
 */
 
-int createMsgQ(messageQID *);
-int sendMsg(messageQID *);
+int createMsgQ(messageQID*);
+int sendMsg(messageQID*, messageBuf*);
 
 /**
 	Null structure definitions
