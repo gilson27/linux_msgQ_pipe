@@ -66,12 +66,12 @@ int createMsgQ(messageQID *objMessageQID) {
 int sendMsg(messageQID *objMessageQID, messageBuf *objMessageBuf) {
 	int response;
 
-	response = msgsnd(objMessageQID->msgID, objMessageBuf, sizeof(objMessageBuf->msg), IPC_NOWAIT);
+	response = msgsnd(objMessageQID->msgID, (void *)objMessageBuf, sizeof(objMessageBuf->msg), IPC_NOWAIT);
 	if(response == FAILURE) {
 		perror("Failed to send message");
 		return FAILURE;
 	}
-	
+	fprintf(stdout, "Send %d bytes of type %d", sizeof(objMessageBuf->msg), objMessageBuf->mtype);
 	return SUCCESS;
 }
 

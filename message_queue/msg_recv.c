@@ -19,8 +19,6 @@ int main() {
 
 	messageBuf objMessageBuf;
 	objMessageBuf = nullMessageBuf;
-	objMessageBuf.mtype = TEST_MSG_TYPE;
-
 	/**
 		Create message Queue
 	*/
@@ -49,7 +47,7 @@ shutdown:
 int createMsgQ(messageQID *objMessageQID) {
 	int response;
 
-	objMessageQID->msgID = msgget((key_t)TEST_MSG_KEY, IPC_CREAT | 0666);
+	objMessageQID->msgID = msgget((key_t)TEST_MSG_KEY, IPC_CREAT | 0777);
 	if(response == FAILURE) {
 		perror("Failed to create message Queue");
 		return FAILURE;
@@ -64,8 +62,8 @@ int createMsgQ(messageQID *objMessageQID) {
 */
 int recvMsg(messageQID *objMessageQID, messageBuf *objMessageBuf) {
 	int response;
-	fprintf(stdout, "Receiving from id = %d\n", objMessageQID->msgID);
-	response = msgrcv(objMessageQID->msgID, objMessageBuf, sizeof(objMessageBuf), TEST_MSG_TYPE, MSG_NOERROR | IPC_NOWAIT);
+	fprintf(stdout, "Receiving from id = %d size =%d type %d \n", objMessageQID->msgID, sizeof(objMessageBuf->msg), TEST_MSG_TYPE);
+	response = msgrcv(objMessageQID->msgID, (void *)objMessageBuf, sizeof(objMessageBuf->msg), TEST_MSG_TYPE, MSG_NOERROR | IPC_NOWAIT);
 	if(response == FAILURE) {
 		perror("Failed to recv message");
 		return FAILURE;

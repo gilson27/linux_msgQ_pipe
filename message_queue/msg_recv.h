@@ -17,7 +17,7 @@
 */
 
 #define TEST_MSG_KEY 10
-#define TEST_MSG_TYPE 9999L
+#define TEST_MSG_TYPE 100
 #define MSG_SIZE 256
 #define TEST_MSG "It works"
 
@@ -33,8 +33,8 @@ typedef struct MessageQID {
 }messageQID;
 
 typedef struct MessageBuf {
-	char msg[MSG_SIZE];
 	long mtype;
+	char msg[MSG_SIZE];
 }messageBuf;
 
 /**
