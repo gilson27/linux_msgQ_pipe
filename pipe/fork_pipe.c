@@ -11,12 +11,17 @@
 int main() {
 	int pid;
 	int pipeFD[2];
+	pipe(pipeFD);
+	char readBytes[64];
 	
 	pid = fork();
 	
 	if(pid == 0) {
+		write(pipeFD[1], "TEST", (strlen("TEXT") + 1));
 		fprintf(stdout, "In child process \n");
 	} else {
-		fprintf(stdout, "In parent process");
+		read(pipeFD[0], readBytes, sizeof(readBytes));
+		fprintf(stdout, "In parent process received %s", readBytes);
 	}
+	return 0;
 }
