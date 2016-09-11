@@ -50,7 +50,7 @@ shutdown:
 int createMsgQ(messageQID *objMessageQID) {
 	int response;
 
-	objMessageQID->msgID = msgget((key_t)TEST_MSG_KEY, IPC_CREAT | 0666);
+	objMessageQID->msgID = msgget((key_t)TEST_MSG_KEY, IPC_CREAT | 0777);
 	if(response == FAILURE) {
 		perror("Failed to create message Queue");
 		return FAILURE;
