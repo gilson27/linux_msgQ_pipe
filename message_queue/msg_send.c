@@ -5,32 +5,50 @@
 	@date  11 Sep 2016
 **/
 
-#include "msg_recv.h"
+#include "msg_send.h"
 
 
 int main() {
 	/**
 		Memory allocation to msg Q ID struct and  message to be sent
 	*/
-	char *msg;
+
 	messageQID objMessageQID;
 	objMessageQID = nullMessageQID;
-	msg = (char *)malloc(MSG_SIZE);
-	if(msg==NULL) {
-		perror("Memeory allocation failed");
-		goto shutdown;
-	}
+
+	messageBuf objMessageBuf;
+	objMessageBuf = nullMessageBuf;
 
 	/**
 		Create message Queue
 	*/
-	createMsgQ();
+	createMsgQ(&objMessageQID);
 
 	/**
 		Send message
 	*/
-	sendMsg();
+	sendMsg(&objMessageQID, &objMessageBuf);
 	return 0;
 shutdown:
 	return -1;
 } 
+
+
+/**
+	Function to open message Queue
+*/
+
+int createMsgQ(messageQID *objMessageQID) {
+	int response;
+
+	response = msgget((key_t)TEST_MSG_KEY);
+	
+	return SUCCESS;
+}
+
+
+/**
+	Function to send message over the message Queue
+*/
+
+

@@ -1,4 +1,5 @@
-/**     file msg_send.h
+/**     
+	file msg_send.h
 	@desc Header file for message send
 	@author Gilson Varghese
 	@date  11 Sep 2016
@@ -9,12 +10,13 @@
 #include <sys/ipc.h>
 #include <sys/msg.h>
 #include <sys/errno.h>
+#include <sys/types.h>
 
 /**
 	Macros
 */
 
-#define TEST_MSG_ID 9
+#define TEST_MSG_KEY 9
 #define TEST_MSG_TYPE 9999
 #define MSG_SIZE 256
 
@@ -29,6 +31,11 @@ typedef struct MessageQID {
 	int msgID;
 }messageQID;
 
+typedef struct MessageBuf {
+	char msg[MSG_SIZE];
+	long mtype;
+}messageBuf;
+
 /**
 	Function Declarations
 */
@@ -41,3 +48,4 @@ int sendMsg(messageQID *);
 */
 
 static messageQID nullMessageQID;
+static messageBuf nullMessageBuf;
