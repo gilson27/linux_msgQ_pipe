@@ -1,6 +1,6 @@
 /**     
-	file msg_send.h
-	@desc Header file for message send
+	file msg_recv.h
+	@desc Header file for message recv
 	@author Gilson Varghese
 	@date  11 Sep 2016
 **/
@@ -42,7 +42,7 @@ typedef struct MessageBuf {
 */
 
 int createMsgQ(messageQID*);
-int sendMsg(messageQID*, messageBuf*);
+int recvMsg(messageQID*, messageBuf*);
 
 /**
 	Null structure definitions
