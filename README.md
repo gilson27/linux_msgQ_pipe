@@ -1,6 +1,7 @@
 # linux_msgQ_pipe
 It's part of a proposal
 Contains two folders 
-*Message Queue example
-*Pipe example
-
+<ul>
+<li>Message Queue example
+<li>Pipe example
+</ul>
